@@ -1,0 +1,10 @@
+:root { font-family: system-ui, sans-serif; color: #172033; background: #f5f7fb; }
+body { margin: 0; }
+main { max-width: 680px; margin: 3rem auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 20px #17203318; }
+form { display: grid; gap: 1rem; }
+label { display: grid; gap: .4rem; font-weight: 600; }
+input, select, textarea, button { font: inherit; padding: .6rem; }
+textarea { min-height: 4rem; }
+button { width: max-content; background: #1457cc; color: white; border: 0; border-radius: 5px; cursor: pointer; }
+#message { min-height: 1.5rem; color: #1457cc; }
+.intro { color: #526070; }
