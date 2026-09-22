@@ -48,9 +48,41 @@ jobs:
           path: test-results.xml
           retention-days: 7
 
+  smoke-test:
+    name: Smoke test application
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      APP_PORT: "5050"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Start application
+        run: gunicorn --bind "127.0.0.1:${APP_PORT}" --log-file gunicorn.log --daemon app:app
+      - name: Verify health endpoint with PowerShell
+        run: >
+          pwsh -File ./scripts/Invoke-HealthCheck.ps1
+          -BaseUrl "http://127.0.0.1:${APP_PORT}"
+          -RetryCount 5
+          -RetryDelaySeconds 2
+      - name: Show application log
+        if: failure()
+        run: cat gunicorn.log
+      - name: Stop application
+        if: always()
+        run: pkill gunicorn || true
+
   package:
     name: Package application
-    needs: test
+    needs: smoke-test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:

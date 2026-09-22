@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 dist/
 test-results.xml
+gunicorn.log
 .venv/
 venv/
 .env
