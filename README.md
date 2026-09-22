@@ -38,6 +38,18 @@ pwsh -File ./scripts/Validate-Application.ps1
 The script finds the local virtual-environment Python when present, checks the
 application syntax, runs the tests, and returns exit code `0` for success or `1`
 for failure. Use `-SkipTests` when you only want the syntax check.
+
+## Check application health with PowerShell
+
+Start the application first, then run:
+
+```powershell
+pwsh -File ./scripts/Invoke-HealthCheck.ps1
+```
+
+The script calls `/api/health`, expects `{"status":"healthy"}`, and retries up
+to three times before returning exit code `1`. Pass `-BaseUrl` to check a
+different environment.
 #test
 
 The application keeps leave requests in memory, so restarting it clears them. This is intentional for the initial learning stage.
