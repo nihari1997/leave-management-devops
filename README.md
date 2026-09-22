@@ -26,6 +26,18 @@ python app.py
 ```powershell
 pytest
 ```
+
+## Validate with PowerShell
+
+After installing PowerShell 7, run this from the project folder:
+
+```powershell
+pwsh -File ./scripts/Validate-Application.ps1
+```
+
+The script finds the local virtual-environment Python when present, checks the
+application syntax, runs the tests, and returns exit code `0` for success or `1`
+for failure. Use `-SkipTests` when you only want the syntax check.
 #test
 
 The application keeps leave requests in memory, so restarting it clears them. This is intentional for the initial learning stage.
