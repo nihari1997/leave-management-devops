@@ -37,7 +37,8 @@ pwsh -File ./scripts/Validate-Application.ps1
 
 The script finds the local virtual-environment Python when present, checks the
 application syntax, runs the tests, and returns exit code `0` for success or `1`
-for failure. Use `-SkipTests` when you only want the syntax check.
+for failure. Use `-SkipTests` when you only want the syntax check, or pass
+`-TestResultPath test-results.xml` to create a JUnit test report.
 
 ## Check application health with PowerShell
 

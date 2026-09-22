@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$PythonPath,
+    [string]$TestResultPath,
     [switch]$SkipTests
 )
 
@@ -47,7 +48,11 @@ try {
 
         if (-not $SkipTests) {
             Write-Host "Running tests..."
-            Invoke-PythonCommand @("-m", "pytest", "-q")
+            $pytestArguments = @("-m", "pytest", "-q")
+            if ($TestResultPath) {
+                $pytestArguments += "--junitxml=$TestResultPath"
+            }
+            Invoke-PythonCommand $pytestArguments
         }
     }
     finally {
