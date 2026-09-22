@@ -10,7 +10,22 @@ on:
     branches: [main]
 
 jobs:
-  checkout:
+  validate:
+    name: Validate application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Check Python syntax
+        run: python -m compileall -q app.py
+
+  test:
+    name: Test application
+    needs: validate
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
