@@ -47,3 +47,22 @@ jobs:
           name: test-results
           path: test-results.xml
           retention-days: 7
+
+  package:
+    name: Package application
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Create source package
+        run: |
+          mkdir -p dist
+          git archive --format=tar.gz --output "dist/leave-management-${GITHUB_SHA}.tar.gz" "$GITHUB_SHA"
+      - name: Upload source package
+        uses: actions/upload-artifact@v7
+        with:
+          name: leave-management-source
+          path: dist/
+          retention-days: 7
